@@ -38,8 +38,8 @@ fun Application.module() {
             call.respond(courses)
         }
         get("/course/{id}") {
-            val courseId = call.parameters["id"]?.toInt()
-            courseId?.let { id -> courses[id].let { course -> call.respond(course) } }
+            val courseId = call.parameters["id"] ?: throw NullPointerException("id is required")
+            courseId.toInt().let { id -> call.respond(courses.filter { course -> course.id == id }) }
         }
     }
 }
